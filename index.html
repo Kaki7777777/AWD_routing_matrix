@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWD Routing Decision Matrix</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #232f3e;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .matrix-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            font-size: 12px;
+        }
+        .matrix-table th, .matrix-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+            vertical-align: middle;
+        }
+        .matrix-table th {
+            background-color: #232f3e;
+            color: white;
+            font-weight: bold;
+        }
+        .velocity-head { background-color: #e8f5e8; }
+        .velocity-body { background-color: #fff3cd; }
+        .velocity-tail { background-color: #f8d7da; }
+        .base-route { font-weight: bold; }
+        .modifier { font-style: italic; color: #666; }
+        .strategy-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .strategy-table th, .strategy-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        .strategy-table th {
+            background-color: #ff9900;
+            color: white;
+        }
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏭 AWD Routing Decision Matrix</h1>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color velocity-head"></div>
+                <span>Head (High Velocity)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color velocity-body"></div>
+                <span>Body (Medium Velocity)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color velocity-tail"></div>
+                <span>Tail (Low Velocity)</span>
+            </div>
+        </div>
+
+        <table class="matrix-table">
+            <thead>
+                <tr>
+                    <th rowspan="2">Velocity Tier</th>
+                    <th rowspan="2">Base Route</th>
+                    <th colspan="5">Product Characteristic Modifiers</th>
+                </tr>
+                <tr>
+                    <th>SKU-Heavy</th>
+                    <th>Seasonal</th>
+                    <th>Bulky/Heavy</th>
+                    <th>High-Value</th>
+                    <th>Regional-Specific</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="velocity-head">
+                    <td><strong>HEAD</strong></td>
+                    <td class="base-route">Direct → All Des.AWD → AFN<br><small>⚡ Skip Des.AWD if single FC target</small></td>
+                    <td class="modifier">Reduce to 2-3 Des.AWD</td>
+                    <td class="modifier">Pre-position +3mo<br><small>📋 Use Case: REDESS</small></td>
+                    <td class="modifier">⚡ Direct to AFN (skip Des.AWD)</td>
+                    <td class="modifier">⚡ Direct to AFN (skip Des.AWD)</td>
+                    <td class="modifier">Target Des.AWD only</td>
+                </tr>
+                <tr class="velocity-body">
+                    <td><strong>BODY</strong></td>
+                    <td class="base-route">Direct → 1-2 Des.AWD → AFN</td>
+                    <td class="modifier">Single Des.AWD only<br><small>📋 Use Case: B&K Fashion</small></td>
+                    <td class="modifier">Pre-position +1-2mo<br><small>📋 Use Cases: REDESS, Joyspot, Transy</small></td>
+                    <td class="modifier">⚡ Direct to AFN (skip Des.AWD)</td>
+                    <td class="modifier">⚡ Direct to AFN (skip Des.AWD)</td>
+                    <td class="modifier">Target Des.AWD only</td>
+                </tr>
+                <tr class="velocity-tail">
+                    <td><strong>TAIL</strong></td>
+                    <td class="base-route">🎯 Origin → Single Des.AWD → On-demand AFN</td>
+                    <td class="modifier">🎯 Origin → Single Des.AWD only<br><small>📋 Use Case: B&K Fashion</small></td>
+                    <td class="modifier">No pre-positioning<br><small>📋 Use Cases: REDESS, Joyspot, Transy</small></td>
+                    <td class="modifier">⚡ Direct to AFN (skip Des.AWD)</td>
+                    <td class="modifier">⚡ Direct to AFN (skip Des.AWD)</td>
+                    <td class="modifier">Target Des.AWD only</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>🎯 Origin AWD Best-Fit Criteria</h2>
+        <div style="background: #e8f4fd; padding: 15px; border-radius: 5px; margin: 20px 0; border-left: 4px solid #0073bb;">
+            <h3>Use Origin AWD When:</h3>
+            <ul>
+                <li><strong>TAIL velocity + SKU-Heavy:</strong> Consolidation reduces per-SKU handling costs</li>
+                <li><strong>Arbitrage sellers:</strong> Need flexibility to shift inventory between regions based on profitability</li>
+                <li><strong>Uncertain demand patterns:</strong> Want to delay regional commitment until demand signals emerge</li>
+                <li><strong>Cross-border compliance:</strong> Need staging area for regulatory processing before regional distribution</li>
+            </ul>
+            <h3>Skip Origin AWD When:</h3>
+            <ul>
+                <li><strong>HEAD/BODY velocity:</strong> Speed to market more important than consolidation savings</li>
+                <li><strong>Predictable regional demand:</strong> Can ship directly to known destination markets</li>
+                <li><strong>Single-market sellers:</strong> No need for cross-region flexibility</li>
+                <li><strong>High-value/time-sensitive:</strong> Minimize handling points</li>
+            </ul>
+        </div>
+
+        <h2>⚡ Direct to AFN Criteria</h2>
+        <div style="background: #fff3cd; padding: 15px; border-radius: 5px; margin: 20px 0; border-left: 4px solid #ffc107;">
+            <h3>Go Direct to AFN When:</h3>
+            <ul>
+                <li><strong>Ultra-fast velocity + Predictable demand:</strong> No benefit from AWD buffering, direct flow needed</li>
+                <li><strong>Time-sensitive products:</strong> Product launches, trending items, flash sales</li>
+                <li><strong>Single AFN FC destination:</strong> When seller knows exact FC target (local/regional sellers)</li>
+                <li><strong>High handling sensitivity:</strong> Fragile, perishable, or high-value items</li>
+                <li><strong>Established direct relationships:</strong> Sellers with existing AFN FC contracts</li>
+            </ul>
+            <h3>Use Destination AWD When:</h3>
+            <ul>
+                <li><strong>Multi-FC distribution needed:</strong> Inventory needs to spread across multiple AFN FCs</li>
+                <li><strong>Demand uncertainty:</strong> Don't know which specific FCs will need inventory</li>
+                <li><strong>Seasonal buffering:</strong> Need staging before peak season FC capacity constraints</li>
+                <li><strong>Cross-docking benefits:</strong> Consolidation with other shipments reduces costs</li>
+            </ul>
+        </div>
+
+        <h2>📊 Seller Strategy Overlay</h2>
+        <table class="strategy-table">
+            <thead>
+                <tr>
+                    <th>Seller Type</th>
+                    <th>Route Modification</th>
+                    <th>Origin AWD Usage</th>
+                    <th>Des.AWD Selection Strategy</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Arbitrage/Multi-market</strong></td>
+                    <td>🎯 Origin AWD for demand balancing across regions</td>
+                    <td>✅ Yes - for cross-region flexibility</td>
+                    <td>Multiple regions based on real-time profitability</td>
+                </tr>
+                <tr>
+                    <td><strong>Test-and-Learn</strong></td>
+                    <td>Direct to single Des.AWD for agility</td>
+                    <td>❌ No - direct to Des.AWD</td>
+                    <td>Single Des.AWD for maximum flexibility</td>
+                </tr>
+                <tr>
+                    <td><strong>Established/Predictable</strong></td>
+                    <td>Direct to Des.AWD based on demand patterns</td>
+                    <td>❌ No - direct to Des.AWD</td>
+                    <td>Distributed based on historical demand patterns</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>🎯 Quick Decision Process</h2>
+        <div style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin-top: 20px;">
+            <ol>
+                <li><strong>Classify Velocity:</strong> HEAD/BODY/TAIL → Select base route</li>
+                <li><strong>Apply Product Modifiers:</strong> Adjust Des.AWD selection based on characteristics</li>
+                <li><strong>Apply Seller Strategy:</strong> Determine Origin AWD usage and final routing</li>
+                <li><strong>Execute Route:</strong> Base + Modifiers + Strategy = Final AWD Route</li>
+            </ol>
+        </div>
+    </div>
+</body>
+</html>
